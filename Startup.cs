@@ -43,9 +43,9 @@ namespace MvcAuthVue
             .AddOpenIdConnect("Auth0", options =>
             {
 
-                options.Authority = $"https://{Configuration["Auth0:Domain"]}";
-                options.ClientId = Configuration["Auth0:ClientId"];
-                options.ClientSecret = Configuration["Auth0:ClientSecret"];
+                options.Authority = $"https://{"ENV_AUTH0_DOMAIN".GetEnv()}";
+                options.ClientId = "ENV_AUTH0_CLIENT_ID".GetEnv();
+                options.ClientSecret = "ENV_AUTH0_CLIENT_SECRET".GetEnv();
                 options.ResponseType = OpenIdConnectResponseType.Code;
 
                 options.Scope.Clear();
@@ -58,7 +58,7 @@ namespace MvcAuthVue
                 {
                     OnRedirectToIdentityProviderForSignOut = (context) =>
                     {
-                        var logoutUri = $"https://{Configuration["Auth0:Domain"]}/v2/logout?client_id={Configuration["Auth0:ClientId"]}";
+                        var logoutUri = $"https://{"ENV_AUTH0_DOMAIN".GetEnv()}/v2/logout?client_id={"ENV_AUTH0_CLIENT_ID".GetEnv()}";
 
                         var postLogoutUri = context.Properties.RedirectUri;
                         if (!string.IsNullOrEmpty(postLogoutUri))
